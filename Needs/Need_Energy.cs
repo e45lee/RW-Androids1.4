@@ -28,9 +28,8 @@ namespace Androids
             }
         }
 
-        public Need_Energy(Pawn pawn)
+        public Need_Energy(Pawn pawn) : base(pawn )
         {
-            this.pawn = pawn;
         }
 
         public override float MaxLevel => pawn.TryGetComp<EnergyTrackerComp>() is EnergyTrackerComp tracker ? tracker.EnergyProperties.maxEnergy : 1f;

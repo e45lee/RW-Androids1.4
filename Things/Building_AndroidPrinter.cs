@@ -76,7 +76,7 @@ namespace Androids
         /// <summary>
         /// XML properties for the printer.
         /// </summary>
-        protected PawnCrafterProperties printerProperties;
+        public PawnCrafterProperties printerProperties;
 
         //Variables, Construction
         /// <summary>
@@ -114,11 +114,9 @@ namespace Androids
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
             base.SpawnSetup(map, respawningAfterLoad);
-
             powerComp = GetComp<CompPowerTrader>();
             flickableComp = GetComp<CompFlickable>();
-
-            if(inputSettings == null)
+            if (inputSettings == null)
             {
                 inputSettings = new StorageSettings(this);
                 if (def.building.defaultStorageSettings != null)
@@ -363,9 +361,9 @@ namespace Androids
             ingredients.TryDropAll(InteractionCell, Map, ThingPlaceMode.Near);
         }
 
-        public override void Tick()
+        public override void TickInterval(int delta)
         {
-            base.Tick();
+            base.TickInterval(delta);
 
             AdjustPowerNeed();
 
@@ -433,7 +431,7 @@ namespace Androids
                                     soundSustainer.Maintain();
 
                                 //Periodically use resources.
-                                nextResourceTick--;
+                                nextResourceTick-= delta;
 
                                 if (nextResourceTick <= 0)
                                 {
@@ -507,7 +505,7 @@ namespace Androids
 
                                 //Are we done yet?
                                 if (printingTicksLeft > 0)
-                                    printingTicksLeft--;
+                                    printingTicksLeft-=delta;
                                 else
                                     printerStatus = CrafterStatus.Finished;
                             }

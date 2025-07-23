@@ -12,9 +12,9 @@ namespace Androids
     /// </summary>
     public class Hediff_VanometricCell : HediffWithComps
     {
-        public override void Tick()
+        public override void TickInterval(int delta)
         {
-            base.Tick();
+            base.TickInterval(delta);
 
             if(pawn?.needs?.food is Need_Food food)
             {

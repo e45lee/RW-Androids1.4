@@ -12,7 +12,7 @@ namespace Androids
     /// </summary>
     public class ThoughtWorker_DroidAlways : ThoughtWorker
     {
-        protected override ThoughtState CurrentStateInternal(Pawn p)
+        public override ThoughtState CurrentStateInternal(Pawn p)
         {
             if (p.def.HasModExtension<MechanicalPawnProperties>() || p.health.hediffSet.HasHediff(HediffDefOf.ChjAndroidUpgrade_DroneCore))
                 return ThoughtState.ActiveAtStage(0);

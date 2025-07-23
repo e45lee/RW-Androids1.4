@@ -32,7 +32,7 @@ namespace Androids
             return false;
         }
 
-        protected override IEnumerable<Toil> MakeNewToils()
+        public override IEnumerable<Toil> MakeNewToils()
         {
             this.FailOnDestroyedNullOrForbidden(FuelIndex);
 

@@ -87,7 +87,7 @@ namespace Androids
                 {
                     Type type = typeof(Need_Food);
 
-                    //Get protected variable 'pawn' from 'PawnRenderer'.
+                    //Get public variable 'pawn' from 'PawnRenderer'.
                     int_Need_Food_Starving_GetPawn = type.GetField("pawn", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
 
                     //Get, get method.
@@ -135,17 +135,17 @@ namespace Androids
                         null);
                 }
 
-                lastPatch = "Pawn_HealthTracker.HealthTick";
-                {
-                    //Pawn_HealthTracker
-                    Type type = typeof(Pawn_HealthTracker);
+                //lastPatch = "Pawn_HealthTracker.HealthTick";
+                //{
+                //    //Pawn_HealthTracker
+                //    Type type = typeof(Pawn_HealthTracker);
 
-                    //Patch: Pawn_HealthTracker.HealthTick as Prefix
-                    harmony.Patch(
-                        type.GetMethod("HealthTick"),
-                        null,
-                        new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(Patch_Pawn_HealthTracker_HealthTick))));
-                }
+                //    //Patch: Pawn_HealthTracker.HealthTick as Prefix
+                //    harmony.Patch(
+                //        type.GetMethod("HealthTick"),
+                //        null,
+                //        new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(Patch_Pawn_HealthTracker_HealthTick))));
+                //}
 
                 lastPatch = "Pawn_HealthTracker.AddHediff";
                 {
@@ -207,20 +207,20 @@ namespace Androids
                         null);
                 }
 
-                lastPatch = "DaysWorthOfFoodCalculator.ApproxDaysWorthOfFood";
-                {
-                    //DaysWorthOfFoodCalculator
-                    Type type = typeof(DaysWorthOfFoodCalculator);
+                //lastPatch = "DaysWorthOfFoodCalculator.ApproxDaysWorthOfFood";
+                //{
+                //    //DaysWorthOfFoodCalculator
+                //    Type type = typeof(DaysWorthOfFoodCalculator);
 
-                    //Patch: DaysWorthOfFoodCalculator.ApproxDaysWorthOfFood as Prefix
-                    Type[] types = new Type[] {
-                        typeof(List<Pawn>), typeof(List<ThingDefCount>), typeof(int), typeof(IgnorePawnsInventoryMode),
-                        typeof(Faction), typeof(WorldPath), typeof(float), typeof(int), typeof(bool)};
-                    harmony.Patch(
-                        type.GetMethod("ApproxDaysWorthOfFood", BindingFlags.NonPublic | BindingFlags.InvokeMethod | BindingFlags.Static, Type.DefaultBinder, types, null),
-                        new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(Patch_DaysWorthOfFoodCalculator_ApproxDaysWorthOfFood))),
-                        null);
-                }
+                //    //Patch: DaysWorthOfFoodCalculator.ApproxDaysWorthOfFood as Prefix
+                //    Type[] types = new Type[] {
+                //        typeof(List<Pawn>), typeof(List<ThingDefCount>), typeof(int), typeof(IgnorePawnsInventoryMode),
+                //        typeof(Faction), typeof(WorldPath), typeof(float), typeof(int), typeof(bool)};
+                //    harmony.Patch(
+                //        type.GetMethod("ApproxDaysWorthOfFood"),
+                //        new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(Patch_DaysWorthOfFoodCalculator_ApproxDaysWorthOfFood))),
+                //        null);
+                //}
 
                 lastPatch = "GatheringsUtility.ShouldPawnKeepPartying";
                 {
@@ -297,12 +297,12 @@ namespace Androids
                     harmony.Patch(type.GetMethod("ShouldMeasureTimeNow"), new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_ShouldMeasureTimeNow))), null);
                 }
 
-                lastPatch = "InteractionUtility.CanInitiateInteraction";
-                {
-                    Type type = typeof(InteractionUtility);
+                //lastPatch = "SocialInteractionUtility.CanInitiateInteraction";
+                //{
+                //    Type type = typeof(SocialInteractionUtility);
 
-                    harmony.Patch(type.GetMethod("CanInitiateInteraction"), new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_CanInitiateInteraction))), null);
-                }
+                //    harmony.Patch(type.GetMethod("CanInitiateInteraction"), new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_CanInitiateInteraction))), null);
+                //}
 
                 lastPatch = "Pawn_HealthTracker.ShouldBeDeadFromRequiredCapacity";
                 {
@@ -348,24 +348,24 @@ namespace Androids
                     harmony.Patch(type.GetMethod("TryGiveJob", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance), new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_GetJoyTryGiveJob))), null);
                 }
 
-                lastPatch = "Pawn_InteractionsTracker.SocialFightChance && InteractionsTrackerTick && CanInteractNowWith";
-                {
-                    Type type = typeof(Pawn_InteractionsTracker);
+                //lastPatch = "Pawn_InteractionsTracker.SocialFightChance && InteractionsTrackerTick && CanInteractNowWith";
+                //{
+                //    Type type = typeof(Pawn_InteractionsTracker);
 
-                    int_Pawn_InteractionsTracker_GetPawn = type.GetField("pawn", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
+                //    int_Pawn_InteractionsTracker_GetPawn = type.GetField("pawn", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
 
-                    harmony.Patch(type.GetMethod("SocialFightChance"), new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_SocialFightChance))), null);
-                    harmony.Patch(type.GetMethod("InteractionsTrackerTick"), new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_InteractionsTrackerTick))), null);
-                    harmony.Patch(type.GetMethod("CanInteractNowWith"), new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_CanInteractNowWith))), null);
-                }
+                //    harmony.Patch(type.GetMethod("SocialFightChance"), new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_SocialFightChance))), null);
+                //    harmony.Patch(type.GetMethod("InteractionsTrackerTick"), new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_InteractionsTrackerTick))), null);
+                //    harmony.Patch(type.GetMethod("CanInteractNowWith"), new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_CanInteractNowWith))), null);
+                //}
 
-                lastPatch = "InteractionUtility.CanInitiateInteraction && CanReceiveInteraction";
-                {
-                    Type type = typeof(InteractionUtility);
+                //lastPatch = "InteractionUtility.CanInitiateInteraction && CanReceiveInteraction";
+                //{
+                //    Type type = typeof(InteractionUtility);
 
-                    harmony.Patch(type.GetMethod("CanInitiateInteraction"), new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_CanDoInteraction))), null);
-                    harmony.Patch(type.GetMethod("CanReceiveInteraction"), new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_CanDoInteraction))), null);
-                }
+                //    harmony.Patch(type.GetMethod("CanInitiateInteraction"), new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_CanDoInteraction))), null);
+                //    harmony.Patch(type.GetMethod("CanReceiveInteraction"), new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_CanDoInteraction))), null);
+                //}
 
                 lastPatch = "PawnDiedOrDownedThoughtsUtility.AppendThoughts_ForHumanlike";
                 {
@@ -374,12 +374,12 @@ namespace Androids
                     harmony.Patch(type.GetMethod("AppendThoughts_ForHumanlike", BindingFlags.NonPublic | BindingFlags.Static), new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_AppendThoughts_ForHumanlike))), null);
                 }
 
-                lastPatch = "InspirationHandler.InspirationHandlerTick";
-                {
-                    Type type = typeof(InspirationHandler);
+                //lastPatch = "InspirationHandler.InspirationHandlerTick";
+                //{
+                //    Type type = typeof(InspirationHandler);
 
-                    harmony.Patch(type.GetMethod("InspirationHandlerTick"), new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_InspirationHandlerTick))), null);
-                }
+                //    harmony.Patch(type.GetMethod("InspirationHandlerTick"), new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_InspirationHandlerTick))), null);
+                //}
 
                 lastPatch = "JobDriver_Vomit.MakeNewToils";
                 {
@@ -391,15 +391,15 @@ namespace Androids
                         null);
                 }
 
-                lastPatch = "Alert_Boredom.GetReport";
-                {
-                    Type type = typeof(Alert_Boredom);
+                //lastPatch = "Alert_Boredom.GetReport";
+                //{
+                //    Type type = typeof(Alert_Boredom);
 
-                    harmony.Patch(
-                        AccessTools.Method(type, "GetReport"),
-                        new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_Boredom_GetReport))),
-                        null);
-                }
+                //    harmony.Patch(
+                //        AccessTools.Method(type, "GetReport"),
+                //        new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_Boredom_GetReport))),
+                //        null);
+                //}
 
                 lastPatch = "Caravan.NightResting";
                 {
@@ -715,7 +715,7 @@ namespace Androids
 
         public static void Patch_Pawn_HealthTracker_AddHediff(Pawn_HealthTracker __instance, Hediff hediff, BodyPartRecord part, ref DamageInfo dinfo, DamageWorker.DamageResult result)
         {
-            Pawn pawn = Pawn_HealthTracker_GetPawn(__instance);
+            Pawn pawn = __instance.pawn; //Pawn_HealthTracker_GetPawn(__instance);
             if (pawn.health.hediffSet.HasHediff(HediffDefOf.ChjAndroidLike) && !pawn.Dead)
             {
                 if (ThingDefOf.ChjAndroid.race.hediffGiverSets != null)
@@ -734,8 +734,8 @@ namespace Androids
 
         public static void Patch_Pawn_HealthTracker_HealthTick(Pawn_HealthTracker __instance)
         {
-            Pawn pawn = Pawn_HealthTracker_GetPawn(__instance);
-            if(pawn.health.hediffSet.HasHediff(HediffDefOf.ChjAndroidLike) && !pawn.Dead)
+            Pawn pawn = __instance.pawn;
+            if(!pawn.Dead && pawn.health.hediffSet.HasHediff(HediffDefOf.ChjAndroidLike) )
             {
                 //Tick Android HediffGivers and remove bleeding effects.
                 List<HediffGiverSetDef> hediffGiverSets = ThingDefOf.ChjAndroid.race.hediffGiverSets;
@@ -762,7 +762,7 @@ namespace Androids
 
         public static bool Patch_Pawn_HealthTracker_DropBloodFilth(Pawn_HealthTracker __instance)
         {
-            Pawn pawn = Pawn_HealthTracker_GetPawn(__instance);
+            Pawn pawn = __instance.pawn;
             if (pawn.health.hediffSet.HasHediff(HediffDefOf.ChjAndroidLike) && (pawn.Spawned || pawn.ParentHolder is Pawn_CarryTracker) && pawn.SpawnedOrAnyParentSpawned && pawn.RaceProps.BloodDef != null)
             {
                 //Drop Android blood instead.
@@ -996,7 +996,7 @@ namespace Androids
 
         public static bool CompatPatch_ShouldBeDeadFromRequiredCapacity(ref Pawn_HealthTracker __instance, ref PawnCapacityDef __result)
         {
-            Pawn pawn = Pawn_HealthTracker_GetPawn(__instance);
+            Pawn pawn = __instance.pawn;
 
             if (pawn.def.HasModExtension<MechanicalPawnProperties>())
             {
@@ -1066,10 +1066,10 @@ namespace Androids
         /// </summary>
         /// <param name="instance">Instance where we should access the value.</param>
         /// <returns>Pawn if it got a pawn, null if it got no pawn.</returns>
-        public static Pawn Pawn_HealthTracker_GetPawn(Pawn_HealthTracker instance)
-        {
-            return (Pawn)int_Pawn_HealthTracker_GetPawn.GetValue(instance);
-        }
+        //public static Pawn Pawn_HealthTracker_GetPawn(Pawn_HealthTracker instance)
+        //{
+        //    return (Pawn)int_Pawn_HealthTracker_GetPawn.GetValue(instance);
+        //}
 
         /// <summary>
         /// Accesses the private (For whatever reason) pawn field in the Pawn_NeedsTracker class.

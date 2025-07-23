@@ -78,7 +78,7 @@ namespace Androids
             return TargetThingA is Thing thing && (thing.ParentHolder is Pawn_CarryTracker || thing.ParentHolder is Pawn_InventoryTracker);
         }
 
-        protected override IEnumerable<Toil> MakeNewToils()
+        public override IEnumerable<Toil> MakeNewToils()
         {
             this.FailOnDestroyedNullOrForbidden(PowerDestIndex);
             if (!TargetB.IsValid)

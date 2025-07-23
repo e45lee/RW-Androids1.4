@@ -19,9 +19,9 @@ namespace Androids
             Scribe_References.Look(ref loverToChase, "loverToChase");
         }
 
-        public override void Tick()
+        public override void TickInterval(int delta)
         {
-            base.Tick();
+            base.TickInterval(delta);
 
             //Reset lover if they are dead or destroyed.
             if(loverToChase != null)

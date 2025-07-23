@@ -64,15 +64,15 @@ namespace Androids
         /// <summary>
         /// Power component.
         /// </summary>
-        protected CompPowerTrader powerComp;
+        public CompPowerTrader powerComp;
         /// <summary>
         /// Flickable component.
         /// </summary>
-        protected CompFlickable flickableComp;
+        public CompFlickable flickableComp;
         /// <summary>
         /// XML properties for the printer.
         /// </summary>
-        protected PawnCrafterProperties printerProperties;
+        public PawnCrafterProperties printerProperties;
         /// <summary>
         /// Convenience class for setting what resources is needed to make one pawn.
         /// </summary>
@@ -372,9 +372,9 @@ namespace Androids
             return builder.ToString().TrimEndNewlines();
         }
 
-        public override void Tick()
+        public override void TickInterval(int delta)
         {
-            base.Tick();
+            base.TickInterval(delta);
 
             AdjustPowerNeed();
 
@@ -408,7 +408,7 @@ namespace Androids
                             if (powerComp.PowerOn)
                             {
                                 //Periodically use resources.
-                                nextResourceTick--;
+                                nextResourceTick-=delta;
 
                                 if (nextResourceTick <= 0)
                                 {
@@ -482,7 +482,7 @@ namespace Androids
 
                                 //Are we done yet?
                                 if (craftingTicksLeft > 0)
-                                    craftingTicksLeft--;
+                                    craftingTicksLeft-=delta;
                                 else
                                     crafterStatus = CrafterStatus.Finished;
                             }

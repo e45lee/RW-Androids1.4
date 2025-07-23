@@ -11,9 +11,9 @@ namespace Androids
     /// </summary>
     public class Hediff_MechaniteHive : HediffWithComps
     {
-        public override void Tick()
+        public override void TickInterval(int delta)
         {
-            base.Tick();
+            base.TickInterval(delta);
 
             if(pawn.IsHashIntervalTick(2000))
             {

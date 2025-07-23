@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,9 +23,32 @@ namespace Androids
         {
             base.Tick();
 
-            if(pawn.needs.TryGetNeed<Need_Energy>() is Need_Energy energy)
+            if (pawn.needs.TryGetNeed<Need_Energy>() is Need_Energy energy)
             {
                 energyTracked = energy.CurLevel;
+            }
+            if (!pawn.Dead)
+            {
+                //Tick Android HediffGivers and remove bleeding effects.
+                List<HediffGiverSetDef> hediffGiverSets = ThingDefOf.ChjAndroid.race.hediffGiverSets;
+                if (hediffGiverSets != null && pawn.IsHashIntervalTick(60))
+                {
+                    for (int k = 0; k < hediffGiverSets.Count; k++)
+                    {
+                        List<HediffGiver> hediffGivers = hediffGiverSets[k].hediffGivers;
+                        for (int l = 0; l < hediffGivers.Count; l++)
+                        {
+                            hediffGivers[l].OnIntervalPassed(pawn, null);
+                            if (pawn.Dead)
+                            {
+                                return;
+                            }
+                        }
+                    }
+                }
+
+                //Remove bleeding.
+                pawn.health.hediffSet.hediffs.RemoveAll(hediff => hediff.def == RimWorld.HediffDefOf.BloodLoss);
             }
         }
 
