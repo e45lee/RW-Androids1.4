@@ -44,6 +44,7 @@ namespace Androids
         public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth, GizmoRenderParms parms)
         {
             GizmoResult result = base.GizmoOnGUI(topLeft, maxWidth, parms);
+            if (printer.PawnBeingCrafted() == null) return result;
 
             //Custom render.
             float width = GetWidth(maxWidth);
