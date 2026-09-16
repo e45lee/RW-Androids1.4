@@ -10,8 +10,10 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Verse;
 using Verse.AI;
+using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
 namespace Androids
 {
@@ -35,6 +37,12 @@ namespace Androids
         public static NeedDef Need_Hygiene;
 
         public static bool bypassGenerationOfUpgrades = false;
+
+        public static FieldInfo int_PawnRenderer_results;
+        public static Type int_PreRenderInfo_type;
+        public static FieldInfo int_PreRenderInfo_bodyPos;
+        public static FieldInfo int_PreRenderInfo_bodyFacing;
+        public static FieldInfo int_PreRenderInfo_bodyAngle;
 
         static HarmonyPatches()
         {
@@ -70,6 +78,18 @@ namespace Androids
 
                     //Get private variable 'pawn' from 'PawnRenderer'.
                     int_PawnRenderer_GetPawn = type.GetField("pawn", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
+
+                    // Get the render info as well too.
+                    int_PawnRenderer_results = type.GetField("results", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
+                    int_PreRenderInfo_type = int_PawnRenderer_results.GetType();
+                    int_PreRenderInfo_bodyPos = int_PreRenderInfo_type.GetField("bodyPos", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
+                    int_PreRenderInfo_bodyFacing = int_PreRenderInfo_type.GetField("bodyFacing", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
+                    int_PreRenderInfo_bodyAngle = int_PreRenderInfo_type.GetField("bodyAngle", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
+
+                    harmony.Patch(type.GetMethod("RenderPawnInternal", BindingFlags.NonPublic | BindingFlags.Instance,
+                        Type.DefaultBinder, CallingConventions.Any,
+                        new Type[] { typeof(PawnDrawParms) }, null),
+                        null, new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(Patch_PawnRenderer_RenderPawnInternal))));
 
                     //Patch: PawnRenderer.RenderPawnInternal as Postfix
                     //harmony.Patch(type.GetMethod("RenderPawnInternal", BindingFlags.NonPublic | BindingFlags.Instance,
@@ -1203,7 +1223,26 @@ namespace Androids
         // <summary>
         // Adds glowing eyes to anything mechanical.
         // </summary>
-        public static void Patch_PawnRenderer_RenderPawnInternal(ref PawnRenderer __instance, Vector3 rootLoc, float angle, bool renderBody, Rot4 bodyFacing, RotDrawMode bodyDrawType, PawnRenderFlags flags)
+        public static void Patch_PawnRenderer_RenderPawnInternal(ref PawnRenderer __instance, PawnDrawParms parms)
+        {
+            //typeof(PawnDrawParams)
+
+            Vector3 drawLoc;
+            Quaternion rotation;
+            Vector3 scale;
+            float angle;
+            Vector3 axis;
+
+            if (!parms.matrix.TryDecomposeTRS(out drawLoc, out rotation, out scale))
+            {
+                // Handle the case where decomposition fails
+                return;
+            }
+            rotation.ToAngleAxis(out angle, out axis);
+
+            Patch_PawnRenderer_RenderPawnInternal_Impl(__instance, drawLoc, angle, parms.facing, parms.rotDrawMode, parms.flags);
+        }
+        public static void Patch_PawnRenderer_RenderPawnInternal_Impl(PawnRenderer __instance, Vector3 rootLoc, float angle, Rot4 bodyFacing, RotDrawMode bodyDrawType, PawnRenderFlags flags)
         {
             //typeof(Vector3), typeof(float), typeof(bool), typeof(Rot4), typeof(RotDrawMode), typeof(PawnRenderFlags)
             if (flags.FlagSet(PawnRenderFlags.Invisible))
