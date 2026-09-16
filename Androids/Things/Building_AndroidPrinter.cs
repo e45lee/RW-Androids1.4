@@ -361,7 +361,7 @@ namespace Androids
             ingredients.TryDropAll(InteractionCell, Map, ThingPlaceMode.Near);
         }
 
-        public override void TickInterval(int delta)
+        protected override void TickInterval(int delta)
         {
             base.TickInterval(delta);
 

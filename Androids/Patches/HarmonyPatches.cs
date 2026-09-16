@@ -715,7 +715,7 @@ namespace Androids
 
         public static void Patch_Pawn_HealthTracker_AddHediff(Pawn_HealthTracker __instance, Hediff hediff, BodyPartRecord part, ref DamageInfo dinfo, DamageWorker.DamageResult result)
         {
-            Pawn pawn = __instance.pawn; //Pawn_HealthTracker_GetPawn(__instance);
+            Pawn pawn = Pawn_HealthTracker_GetPawn(__instance);
             if (pawn.health.hediffSet.HasHediff(HediffDefOf.ChjAndroidLike) && !pawn.Dead)
             {
                 if (ThingDefOf.ChjAndroid.race.hediffGiverSets != null)
@@ -732,9 +732,14 @@ namespace Androids
             }
         }
 
+        public static Pawn Pawn_HealthTracker_GetPawn(Pawn_HealthTracker __instance)
+        {
+            return int_Pawn_HealthTracker_GetPawn.GetValue(__instance) as Pawn;
+        }
+
         public static void Patch_Pawn_HealthTracker_HealthTick(Pawn_HealthTracker __instance)
         {
-            Pawn pawn = __instance.pawn;
+            Pawn pawn = Pawn_HealthTracker_GetPawn(__instance);
             if(!pawn.Dead && pawn.health.hediffSet.HasHediff(HediffDefOf.ChjAndroidLike) )
             {
                 //Tick Android HediffGivers and remove bleeding effects.
@@ -762,7 +767,7 @@ namespace Androids
 
         public static bool Patch_Pawn_HealthTracker_DropBloodFilth(Pawn_HealthTracker __instance)
         {
-            Pawn pawn = __instance.pawn;
+            Pawn pawn = Pawn_HealthTracker_GetPawn(__instance);
             if (pawn.health.hediffSet.HasHediff(HediffDefOf.ChjAndroidLike) && (pawn.Spawned || pawn.ParentHolder is Pawn_CarryTracker) && pawn.SpawnedOrAnyParentSpawned && pawn.RaceProps.BloodDef != null)
             {
                 //Drop Android blood instead.
@@ -996,7 +1001,7 @@ namespace Androids
 
         public static bool CompatPatch_ShouldBeDeadFromRequiredCapacity(ref Pawn_HealthTracker __instance, ref PawnCapacityDef __result)
         {
-            Pawn pawn = __instance.pawn;
+            Pawn pawn = Pawn_HealthTracker_GetPawn(__instance);
 
             if (pawn.def.HasModExtension<MechanicalPawnProperties>())
             {

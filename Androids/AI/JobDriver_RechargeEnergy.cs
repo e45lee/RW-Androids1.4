@@ -67,7 +67,7 @@ namespace Androids
             Scribe_Values.Look(ref ticksSpentCharging, "ticksSpentCharging");
         }
 
-        public override IEnumerable<Toil> MakeNewToils()
+        protected override IEnumerable<Toil> MakeNewToils()
         {
             this.FailOnDestroyedNullOrForbidden(PowerDestIndex);
             AddFailCondition(() => energyNeed == null);

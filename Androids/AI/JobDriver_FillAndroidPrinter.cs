@@ -55,7 +55,7 @@ namespace Androids
         }
 
         [DebuggerHidden]
-        public override IEnumerable<Toil> MakeNewToils()
+        protected override IEnumerable<Toil> MakeNewToils()
         {
             this.FailOnDestroyedOrNull(CarryThingIndex);
             this.FailOnDestroyedNullOrForbidden(DestIndex);

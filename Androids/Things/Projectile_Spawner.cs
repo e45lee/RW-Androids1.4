@@ -84,7 +84,7 @@ namespace Androids
             return lord;
         }
 
-        public override void Impact(Thing hitThing, bool blockedByShield = false)
+        protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
             SoundDef soundExplode = def.projectile.soundExplode;
             if (soundExplode != null)

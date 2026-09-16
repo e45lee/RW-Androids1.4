@@ -4,6 +4,7 @@ using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
@@ -114,7 +115,8 @@ namespace Androids
     {
         public static bool Prefix(Pawn otherPawn, Pawn_InteractionsTracker __instance)
         {
-            if (__instance.pawn.def.GetModExtension<MechanicalPawnProperties>() is MechanicalPawnProperties properties && !properties.canSocialize)
+            Pawn thisPawn = __instance.GetType().GetField("pawn", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance).GetValue(__instance) as Pawn;
+            if (thisPawn.def.GetModExtension<MechanicalPawnProperties>() is MechanicalPawnProperties properties && !properties.canSocialize)
             {
                 return false;
             }
@@ -130,7 +132,8 @@ namespace Androids
     {
         public static bool Prefix(int delta, Pawn_InteractionsTracker __instance)
         {
-            if (__instance.pawn.def.GetModExtension<MechanicalPawnProperties>() is MechanicalPawnProperties properties && !properties.canSocialize)
+            Pawn thisPawn = __instance.GetType().GetField("pawn", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance).GetValue(__instance) as Pawn;
+            if (thisPawn.def.GetModExtension<MechanicalPawnProperties>() is MechanicalPawnProperties properties && !properties.canSocialize)
             {
                 return false;
             }
@@ -146,7 +149,8 @@ namespace Androids
     {
         public static bool Prefix(Pawn recipient, InteractionDef interactionDef, Pawn_InteractionsTracker __instance)
         {
-            if (__instance.pawn.def.GetModExtension<MechanicalPawnProperties>() is MechanicalPawnProperties properties && !properties.canSocialize)
+            Pawn thisPawn = __instance.GetType().GetField("pawn", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance).GetValue(__instance) as Pawn;
+            if (thisPawn.def.GetModExtension<MechanicalPawnProperties>() is MechanicalPawnProperties properties && !properties.canSocialize)
             {
                 return false;
             }

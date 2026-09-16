@@ -31,7 +31,7 @@ namespace Androids
             return 0f;
         }
 
-        public override Job TryGiveJob(Pawn pawn)
+        protected override Job TryGiveJob(Pawn pawn)
         {
             if (pawn.Downed)
                 return null;

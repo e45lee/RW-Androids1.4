@@ -39,7 +39,7 @@ namespace Androids
             return RandomSocialMode.Off;
         }
 
-        public override IEnumerable<Toil> MakeNewToils()
+        protected override IEnumerable<Toil> MakeNewToils()
         {
             powerTrader = Target.TryGetComp<CompPowerTrader>();
 

@@ -44,7 +44,7 @@ namespace Androids
             state.scrollPosition = default(Vector2);
         }
 
-        public override void FillTab()
+        protected override void FillTab()
         {
             IStoreSettingsParent selStoreSettingsParent = this.SelStoreSettingsParent;
             StorageSettings settings = selStoreSettingsParent.GetStoreSettings();

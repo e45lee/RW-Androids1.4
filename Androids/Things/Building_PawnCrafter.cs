@@ -372,7 +372,7 @@ namespace Androids
             return builder.ToString().TrimEndNewlines();
         }
 
-        public override void TickInterval(int delta)
+        protected override void TickInterval(int delta)
         {
             base.TickInterval(delta);
 

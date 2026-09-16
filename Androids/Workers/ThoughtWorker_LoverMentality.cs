@@ -9,7 +9,7 @@ namespace Androids
 {
     public class ThoughtWorker_LoverMentality : ThoughtWorker
     {
-        public override ThoughtState CurrentSocialStateInternal(Pawn p, Pawn otherPawn)
+        protected override ThoughtState CurrentSocialStateInternal(Pawn p, Pawn otherPawn)
         {
             if(p.health.hediffSet.HasHediff(def.hediff) && p.health.hediffSet.GetFirstHediffOfDef(def.hediff) is Hediff_LoverMentality mentality && mentality.loverToChase == otherPawn)
             {
