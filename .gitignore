@@ -1,5 +1,6 @@
-
 *.ide
 *.lock
 *.vs
 /obj/**
+/Androids/obj/**
+/Androids/bin/**
