@@ -1,0 +1,35 @@
+name: .NET Framework CI Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    # Legacy .NET Framework requires Windows to access MSBuild and the correct SDKs
+    runs-on: windows-latest
+
+    steps:
+    # Step 1: Download the repository code
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    # Step 2: Install NuGet CLI so we can restore legacy packages
+    - name: Setup NuGet
+      uses: nuget/setup-nuget@v2
+
+    # Step 3: Set up MSBuild path so the runner can locate msbuild.exe
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    # Step 4: Restore NuGet dependencies using the solution file
+    - name: Restore NuGet packages
+      run: nuget restore Androids.sln
+
+    # Step 5: Build the solution using MSBuild
+    - name: Build Solution
+      run: msbuild Androids.sln /p:Configuration=Debug /p:Platform="Any CPU"
